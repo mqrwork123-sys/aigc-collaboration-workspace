@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIGC 影像创作课｜课程定位与内容</title>
+  <style>
+    :root {
+      --ink:#17324d; --muted:#6e7d8c; --blue:#dcedfb; --blue-strong:#9bc8eb;
+      --blue-deep:#1265a7; --line:#aeb9c2; --accent:#f06b4f; --accent-soft:#fff0eb;
+      --paper:#fff; --green:#dff3ea; --green-deep:#16775c; --slot:#f8fbfd;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:#eef2f5; color:var(--ink); font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif; }
+    .deck { width:min(100%,1600px); margin:auto; background:var(--paper); }
+    .slide {
+      position:relative; aspect-ratio:16 / 9; overflow:hidden;
+      padding:clamp(30px,3.4vw,54px) clamp(42px,5vw,80px) clamp(27px,3vw,48px);
+      background:#fff; display:grid; grid-template-rows:auto 1fr auto; gap:clamp(16px,2vw,28px);
+      break-after:page;
+    }
+    .slide + .slide { border-top:16px solid #eef2f5; }
+    .slide::before { content:""; position:absolute; width:420px; height:420px; border-radius:50%; right:-258px; top:-264px; background:#f2f8fd; }
+    .slide::after { content:""; position:absolute; width:260px; height:260px; border-radius:50%; left:-168px; bottom:-186px; border:36px solid #f5f9fc; }
+    header, main, footer { position:relative; z-index:1; }
+    header { display:flex; justify-content:space-between; gap:24px; align-items:flex-start; }
+    .label { display:inline-flex; align-items:center; gap:8px; color:var(--blue-deep); font-size:clamp(10px,.9vw,13px); font-weight:800; letter-spacing:.12em; }
+    .label::before { content:""; width:9px; height:9px; border-radius:50%; background:var(--accent); }
+    h1 { margin:8px 0 0; font-size:clamp(29px,3.25vw,50px); line-height:1.15; letter-spacing:-.055em; }
+    h1 em { color:var(--accent); font-style:normal; }
+    .slide-no { padding-top:3px; color:var(--muted); font-size:clamp(11px,.9vw,13px); font-weight:700; letter-spacing:.12em; white-space:nowrap; }
+    footer { display:flex; justify-content:space-between; align-items:center; gap:25px; padding-top:14px; border-top:1px solid #dae2e8; color:var(--muted); font-size:clamp(11px,.9vw,14px); line-height:1.5; }
+    footer p { margin:0; } .footer-tag { color:var(--blue-deep); font-weight:800; white-space:nowrap; }
+
+    /* Slide 1: framework */
+    .framework { position:relative; min-height:0; display:grid; grid-template-rows:1fr 1.25fr 1fr; align-items:center; }
+    .connections { position:absolute; inset:3% 3% 4%; width:94%; height:93%; pointer-events:none; overflow:visible; }
+    .connections path { fill:none; stroke:var(--line); stroke-width:1.5; vector-effect:non-scaling-stroke; marker-end:url(#arrow); }
+    .connections .active { stroke:var(--blue-deep); stroke-width:2; }
+    .root-row, .field-row, .aigc-row { position:relative; z-index:1; display:flex; justify-content:center; align-items:center; }
+    .field-row { justify-content:space-between; gap:clamp(8px,1.2vw,18px); padding:0 1%; }
+    .node {
+      display:flex; align-items:center; justify-content:center; min-height:clamp(58px,6.3vw,94px); padding:12px 17px;
+      border:1.5px solid #c7d9e8; border-radius:20px; background:var(--blue); color:var(--blue-deep);
+      text-align:center; text-decoration:none; font-size:clamp(14px,1.45vw,22px); font-weight:800; letter-spacing:-.03em;
+      box-shadow:0 2px 0 rgba(18,101,167,.03); transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .node:hover { transform:translateY(-3px); box-shadow:0 9px 18px rgba(27,89,135,.14); }
+    .node.root { width:clamp(190px,19vw,298px); }
+    .node.field { width:18.5%; min-height:clamp(62px,7.1vw,105px); }
+    .node.dim { background:#f1f7fb; color:#66829a; border-color:#d6e3ec; }
+    .node.aigc { width:clamp(260px,29vw,455px); min-height:clamp(65px,7vw,106px); border-color:var(--blue-deep); background:#e9f5ff; }
+    .node.course { width:clamp(365px,42vw,640px); min-height:clamp(76px,8.2vw,124px); border-color:var(--accent); background:var(--accent-soft); color:#cb4a30; }
+    .node.course span, .node.aigc span { display:block; font-size:.62em; font-weight:600; letter-spacing:0; line-height:1.45; }
+    .aigc-row { flex-direction:column; gap:clamp(16px,1.75vw,25px); padding-top:8px; }
+    .note { position:absolute; right:0; bottom:1%; color:var(--muted); font-size:clamp(10px,.8vw,12px); }
+
+    /* Slide 2: course map */
+    .content-grid { min-height:0; display:grid; grid-template-columns:1.1fr .9fr; gap:clamp(24px,3.4vw,52px); align-items:stretch; }
+    .course-map { position:relative; min-height:0; display:grid; grid-template-columns:repeat(2,1fr); grid-template-rows:repeat(3,1fr); gap:clamp(11px,1.2vw,18px); padding:clamp(5px,.6vw,10px) 0; }
+    .course-map::before, .course-map::after { content:""; position:absolute; left:50%; top:50%; width:1px; height:74%; background:#d2dee7; transform:translate(-50%,-50%); }
+    .course-map::after { width:75%; height:1px; }
+    .topic {
+      position:relative; z-index:1; display:grid; grid-template-columns:42px 1fr; align-items:center; gap:12px;
+      padding:clamp(11px,1.25vw,18px); border:1px solid #d7e2ea; border-radius:18px; background:#fff;
+    }
+    .topic:nth-child(2), .topic:nth-child(3) { background:#f8fbfd; }
+    .topic:nth-child(5) { background:#fff9f6; border-color:#f0d8cf; }
+    .topic:nth-child(6) { background:#f6fcf9; border-color:#d5e8df; }
+    .topic .icon { display:grid; place-items:center; width:38px; height:38px; border-radius:12px; background:var(--blue); color:var(--blue-deep); font-weight:900; font-size:13px; }
+    .topic:nth-child(5) .icon { background:#ffe6dc; color:#c94b31; }.topic:nth-child(6) .icon { background:var(--green); color:var(--green-deep); }
+    .topic b { display:block; font-size:clamp(13px,1.15vw,17px); letter-spacing:-.035em; }
+    .topic span { display:block; margin-top:3px; color:var(--muted); font-size:clamp(10px,.85vw,13px); line-height:1.45; }
+    .image-column { display:grid; grid-template-rows:1.05fr .95fr; gap:clamp(13px,1.4vw,21px); }
+    .image-slot {
+      position:relative; min-height:0; overflow:hidden; display:flex; flex-direction:column; justify-content:center; align-items:center;
+      border:1.5px dashed #9db7ca; border-radius:20px; background:var(--slot); text-align:center; color:#6f8797;
+    }
+    .image-slot::before { content:"＋"; display:grid; place-items:center; width:42px; height:42px; margin-bottom:8px; border-radius:50%; background:#e7f1f8; color:var(--blue-deep); font-size:24px; font-weight:300; }
+    .image-slot b { font-size:clamp(13px,1.12vw,17px); }.image-slot span { margin-top:5px; font-size:clamp(10px,.84vw,12px); line-height:1.45; }
+    .image-slot.large { border-color:#eab9a8; background:#fff9f5; color:#af694f; }.image-slot.large::before { background:#ffe9df; color:var(--accent); }
+    .photo-note { position:absolute; left:0; bottom:0; color:var(--muted); font-size:clamp(10px,.8vw,12px); }
+    @media (max-width:780px) {
+      .slide { aspect-ratio:auto; min-height:100vh; }.field-row { flex-wrap:wrap; justify-content:center; }.node.field { width:30%; }
+      .connections { display:none; }.framework { gap:24px; }.field-row { margin:14px 0; }
+      .content-grid { grid-template-columns:1fr; }.course-map { min-height:440px; }.image-column { min-height:360px; }
+    }
+    @media print {
+      body { background:#fff; }.slide { width:100%; min-height:100vh; break-after:page; }.slide + .slide { border-top:0; }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck">
+    <section class="slide" id="slide-1" aria-labelledby="slide-1-title">
+      <header>
+        <div><div class="label">课程定位 / AI 全景</div><h1 id="slide-1-title">我们的课程，在 AI 框架中的<em>准确位置</em></h1></div>
+        <div class="slide-no">01 / 02</div>
+      </header>
+
+      <div class="framework" aria-label="AIGC 影像创作课与人工智能各领域的关系图">
+        <svg class="connections" viewBox="0 0 1000 520" preserveAspectRatio="none" aria-hidden="true">
+          <defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7" fill="none" stroke="currentColor"/></marker></defs>
+          <path d="M500 56 V125 H110 V174"/><path d="M500 56 V125 H304 V174"/><path d="M500 56 V125 H500 V174"/><path d="M500 56 V125 H696 V174"/><path d="M500 56 V125 H890 V174"/>
+          <path class="active" d="M110 265 V316 H500 V350"/><path class="active" d="M304 265 V316 H500 V350"/><path class="active" d="M500 265 V350"/><path class="active" d="M500 427 V472"/>
+        </svg>
+        <div class="root-row"><a class="node root" href="#" title="可替换为人工智能总览链接">人工智能 AI</a></div>
+        <div class="field-row">
+          <a class="node field" href="#" title="可插入 NLP 资料链接">自然语言处理<br>NLP</a>
+          <a class="node field" href="#" title="可插入 CV 资料链接">计算机视觉<br>CV</a>
+          <a class="node field" href="#" title="可插入大模型资料链接">大模型 /<br>基础模型</a>
+          <a class="node field dim" href="#" title="可插入机器人学资料链接">机器人学</a>
+          <a class="node field dim" href="#" title="可插入 AI for Science 资料链接">AI for<br>Science</a>
+        </div>
+        <div class="aigc-row">
+          <a class="node aigc" href="#" title="可插入 AIGC 说明链接">AIGC：生成内容的能力与应用<span>由语言、视觉与大模型共同支撑</span></a>
+          <a class="node course" href="#" title="可插入课程主页或课程大纲链接">本课程：AIGC 影像创作课<span>聚焦文本、图像、视频、声音与 AI Skill 的创作应用</span></a>
+        </div>
+        <span class="note">蓝色路径＝本课程的技术位置；灰色节点＝AI 的其他重要方向</span>
+      </div>
+
+      <footer><p>不是从头覆盖所有 AI 分支，而是从最贴近学生创作的 <b>AIGC</b> 切入，让学生理解工具、使用工具，并对结果负责。</p><span class="footer-tag">可在任意节点替换超链接</span></footer>
+    </section>
+
+    <section class="slide" id="slide-2" aria-labelledby="slide-2-title">
+      <header>
+        <div><div class="label">课程内容 / 一部短片的完整学习路径</div><h1 id="slide-2-title">学生不只是在“用 AI”，<br>而是在学习<em>如何把一部片做出来</em></h1></div>
+        <div class="slide-no">02 / 02</div>
+      </header>
+
+      <div class="content-grid">
+        <section class="course-map" aria-label="课程涉及领域图">
+          <div class="topic"><div class="icon">01</div><div><b>摄影鉴赏</b><span>看懂构图、光线、景别：一张好画面为什么好？</span></div></div>
+          <div class="topic"><div class="icon">02</div><div><b>电影解析</b><span>拆解镜头、声音和节奏：故事怎样被讲清楚？</span></div></div>
+          <div class="topic"><div class="icon">03</div><div><b>计算机视觉与图形学</b><span>理解图像怎样被读取、显示和生成。</span></div></div>
+          <div class="topic"><div class="icon">04</div><div><b>AIGC 图像与视频</b><span>把分镜变成角色、场景、关键帧和镜头素材。</span></div></div>
+          <div class="topic"><div class="icon">05</div><div><b>声音与剪辑</b><span>把画面接成故事，让观众看懂、听懂、感受到。</span></div></div>
+          <div class="topic"><div class="icon">06</div><div><b>AI 协作与责任</b><span>记录过程、测试结果、说明人的判断与 AI 的分工。</span></div></div>
+        </section>
+
+        <aside class="image-column" aria-label="待插入图片的位置">
+          <!-- 将下方占位区替换为 <img src="你的图片路径" alt="说明"> 即可插入图片。 -->
+          <div class="image-slot large"><b>预留图片位 A</b><span>可放：学生作品关键帧 / 电影画面对照<br>建议横图，比例约 16 : 8</span></div>
+          <div class="image-slot"><b>预留图片位 B</b><span>可放：课堂照片 / 分镜 / 生成过程截图<br>建议横图，比例约 16 : 7</span></div>
+        </aside>
+      </div>
+
+      <footer><p><b>最终不是学会一串软件按钮，</b>而是完成“观察 → 判断 → 生成 → 修改 → 解释”的完整创作循环。</p><span class="footer-tag">两处图片位已预留</span></footer>
+    </section>
+  </main>
+</body>
+</html>

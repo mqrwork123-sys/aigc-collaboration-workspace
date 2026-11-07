@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>AIGC 课程内容图</title>
+  <style>
+    :root { --ink:#17324d; --muted:#71808e; --blue:#dcedfb; --blue-deep:#1265a7; --line:#c6d5df; --orange:#e05a3d; --orange-soft:#fff1eb; --green:#dff3ea; --green-deep:#16775c; }
+    * { box-sizing:border-box; }
+    html,body { width:1920px; height:1080px; margin:0; background:transparent; font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif; }
+    .diagram { position:relative; width:1920px; height:1080px; }
+    .content { position:absolute; left:100px; top:96px; width:1070px; height:888px; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:repeat(3,1fr); gap:30px; }
+    .content::before,.content::after { content:""; position:absolute; z-index:0; left:50%; top:50%; width:2px; height:76%; background:var(--line); transform:translate(-50%,-50%); }
+    .content::after { width:79%; height:2px; }
+    .topic { position:relative; z-index:1; display:grid; grid-template-columns:65px 1fr; align-items:center; gap:20px; padding:26px 28px; border:2px solid #d4e1e9; border-radius:26px; background:#fff; }
+    .topic:nth-child(2),.topic:nth-child(3) { background:#f8fbfd; }.topic:nth-child(5) { background:var(--orange-soft); border-color:#efd6cd; }.topic:nth-child(6) { background:#f5fcf8; border-color:#d2e7de; }
+    .number { display:grid; place-items:center; width:58px; height:58px; border-radius:17px; background:var(--blue); color:var(--blue-deep); font-size:18px; font-weight:900; }
+    .topic:nth-child(5) .number { background:#ffe4db; color:#c44b32; }.topic:nth-child(6) .number { background:var(--green); color:var(--green-deep); }
+    b { display:block; color:var(--ink); font-size:27px; letter-spacing:-.03em; }.topic span { display:block; margin-top:9px; color:var(--muted); font-size:18px; line-height:1.5; }
+    .slots { position:absolute; right:100px; top:96px; width:560px; height:888px; display:grid; grid-template-rows:1.06fr .94fr; gap:32px; }
+    .slot { display:flex; flex-direction:column; align-items:center; justify-content:center; border:2px dashed #9db7ca; border-radius:28px; color:#6e8697; text-align:center; }
+    .slot.orange { border-color:#e6b6a5; color:#ad6850; }.plus { display:grid; place-items:center; width:64px; height:64px; border-radius:50%; background:#e8f2f8; color:var(--blue-deep); font-size:38px; font-weight:300; }.orange .plus { background:#ffebe2; color:var(--orange); }
+    .slot b { margin-top:16px; color:inherit; font-size:25px; }.slot span { margin-top:9px; font-size:17px; line-height:1.55; }
+    .caption { position:absolute; left:100px; bottom:46px; color:#6d7f8c; font-size:18px; }.caption b { display:inline; color:var(--blue-deep); font-size:inherit; }
+  </style>
+</head>
+<body>
+  <div class="diagram" aria-label="AIGC 影像创作课的六个课程领域与图片位置">
+    <section class="content">
+      <div class="topic"><div class="number">01</div><div><b>摄影鉴赏</b><span>看懂构图、光线、景别：一张好画面为什么好？</span></div></div>
+      <div class="topic"><div class="number">02</div><div><b>电影解析</b><span>拆解镜头、声音和节奏：故事怎样被讲清楚？</span></div></div>
+      <div class="topic"><div class="number">03</div><div><b>计算机视觉与图形学</b><span>理解图像怎样被读取、显示和生成。</span></div></div>
+      <div class="topic"><div class="number">04</div><div><b>AIGC 图像与视频</b><span>把分镜变成角色、场景、关键帧和镜头素材。</span></div></div>
+      <div class="topic"><div class="number">05</div><div><b>声音与剪辑</b><span>把画面接成故事，让观众看懂、听懂、感受到。</span></div></div>
+      <div class="topic"><div class="number">06</div><div><b>AI 协作与责任</b><span>记录过程、测试结果、说明人的判断与 AI 的分工。</span></div></div>
+    </section>
+    <!-- 可将占位区替换为图片，或直接在 PPT 中叠放图片。 -->
+    <aside class="slots">
+      <div class="slot orange"><div class="plus">＋</div><b>预留图片位 A</b><span>学生作品关键帧 / 电影画面对照<br>建议横图，比例约 16 : 8</span></div>
+      <div class="slot"><div class="plus">＋</div><b>预留图片位 B</b><span>课堂照片 / 分镜 / 生成过程截图<br>建议横图，比例约 16 : 7</span></div>
+    </aside>
+    <p class="caption"><b>观察 → 判断 → 生成 → 修改 → 解释</b>：一部短片的完整学习路径</p>
+  </div>
+</body>
+</html>

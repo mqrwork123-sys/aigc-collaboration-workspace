@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>AIGC 与 AI 关系图</title>
+  <style>
+    * { box-sizing:border-box; }
+    html,body { width:1536px; height:1152px; margin:0; background:#fff; font-family:"PingFang SC","Microsoft YaHei",Arial,sans-serif; }
+    .diagram { position:relative; width:1536px; height:1152px; background:#fff; }
+    svg { position:absolute; inset:0; width:100%; height:100%; overflow:visible; }
+    path { fill:none; stroke:#121212; stroke-width:2.2; marker-end:url(#arrow); }
+    .node { position:absolute; z-index:1; display:flex; align-items:center; justify-content:center; min-height:92px; padding:14px 18px; border-radius:17px; background:#111; color:#fff; text-align:center; font-size:24px; font-weight:700; line-height:1.25; letter-spacing:-.025em; }
+    .node small { display:block; margin-top:5px; font-size:16px; font-weight:500; line-height:1.35; letter-spacing:0; }
+    .root { left:581px; top:52px; width:374px; height:98px; font-size:28px; }
+    .nlp { left:57px; top:310px; width:242px; }.cv { left:352px; top:310px; width:242px; }.model { left:647px; top:310px; width:242px; }.robot { left:942px; top:310px; width:242px; }.science { left:1237px; top:310px; width:242px; }
+    .aigc { left:496px; top:548px; width:544px; min-height:112px; flex-direction:column; font-size:26px; }
+    .text { left:203px; top:800px; width:390px; }.image { left:943px; top:800px; width:390px; }.audio { left:203px; top:983px; width:390px; }.code { left:943px; top:983px; width:390px; }
+    .text,.image,.audio,.code { min-height:84px; font-size:20px; }
+  </style>
+</head>
+<body>
+  <div class="diagram" aria-label="人工智能、AIGC 与内容生成关系图">
+    <svg viewBox="0 0 1536 1152" aria-hidden="true">
+      <defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#121212" stroke-width="1.6"/></marker></defs>
+      <path d="M768 150 V220 H178 V310"/><path d="M768 150 V220 H473 V310"/><path d="M768 150 V220 H768 V310"/><path d="M768 150 V220 H1063 V310"/><path d="M768 150 V220 H1358 V310"/>
+      <path d="M178 402 V468 H768 V548"/><path d="M473 402 V468 H768 V548"/><path d="M768 402 V548"/>
+      <path d="M768 660 V735 H398 V800"/><path d="M768 660 V735 H1138 V800"/><path d="M768 660 V900 H398 V983"/><path d="M768 660 V900 H1138 V983"/>
+    </svg>
+    <div class="node root">人工智能 AI</div>
+    <div class="node nlp">自然语言处理 NLP</div>
+    <div class="node cv">计算机视觉 CV</div>
+    <div class="node model">大模型 / 基础模型</div>
+    <div class="node robot">机器人学</div>
+    <div class="node science">AI for Science</div>
+    <div class="node aigc">AIGC：生成内容的能力与应用<small>由语言、视觉与大模型共同支撑</small></div>
+    <div class="node text">文本：问答、写作、翻译、教案</div>
+    <div class="node image">图像：海报、插画、设计图</div>
+    <div class="node audio">音频与视频：配音、短视频、数字人</div>
+    <div class="node code">代码与其他内容生成</div>
+  </div>
+</body>
+</html>

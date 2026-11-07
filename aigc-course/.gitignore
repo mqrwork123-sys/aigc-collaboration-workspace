@@ -1,0 +1,16 @@
+# OS and editor metadata
+.DS_Store
+Thumbs.db
+~$*
+
+# Local environment files and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.p12
+
+# Separate nested repository; synchronize it independently if needed
+invoice-organizer/

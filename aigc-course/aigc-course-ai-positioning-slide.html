@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AIGC 影像创作课｜在 AI 全景中的位置</title>
+  <style>
+    :root {
+      --ink:#201c19;
+      --muted:#716962;
+      --paper:#fffaf5;
+      --white:#fffefd;
+      --orange:#ff5a1f;
+      --orange-deep:#cf3c10;
+      --peach:#ffe3d3;
+      --cream:#fff1e8;
+      --line:#eadbd0;
+      --night:#201b18;
+      --green:#397364;
+    }
+    * { box-sizing:border-box; }
+    html,body { min-width:320px; min-height:100%; }
+    body {
+      margin:0; background:#eee8e3; color:var(--ink);
+      font-family:Inter,"PingFang SC","Microsoft YaHei",Arial,sans-serif;
+    }
+    .slide {
+      position:relative; width:min(100vw,1600px); min-height:min(100vh,900px); aspect-ratio:16 / 9;
+      margin:auto; overflow:hidden; padding:clamp(28px,3.4vw,54px) clamp(30px,5vw,80px) clamp(24px,2.7vw,43px);
+      background:var(--paper);
+      display:grid; grid-template-rows:auto 1fr auto; gap:clamp(19px,2.6vw,38px);
+    }
+    .slide::before { content:""; position:absolute; width:38vw; height:38vw; max-width:610px; max-height:610px; border-radius:50%; right:-18vw; top:-27vw; background:#ffe1cf; }
+    .slide::after { content:""; position:absolute; width:20vw; height:20vw; max-width:320px; max-height:320px; border-radius:50%; left:-9vw; bottom:-13vw; border:38px solid #ffe9dd; }
+    header,main,footer { position:relative; z-index:1; }
+    header { display:flex; align-items:flex-start; justify-content:space-between; gap:24px; }
+    .eyebrow { display:flex; align-items:center; gap:9px; color:var(--orange); font-size:clamp(10px,1vw,14px); font-weight:800; letter-spacing:.13em; }
+    .eyebrow i { width:9px; height:9px; border-radius:50%; background:var(--orange); }
+    h1 { margin:10px 0 0; max-width:900px; font-size:clamp(32px,4.2vw,64px); line-height:1.03; letter-spacing:-.065em; }
+    h1 em { font-style:normal; color:var(--orange); }
+    .meta { padding-top:3px; color:var(--muted); text-align:right; font-size:clamp(11px,1vw,14px); line-height:1.65; white-space:nowrap; }
+    .meta b { display:block; color:var(--ink); font-size:1.05em; }
+    main { min-height:0; display:grid; grid-template-columns:1.08fr .92fr; gap:clamp(20px,3vw,48px); }
+    .map { position:relative; min-height:0; padding:clamp(16px,2vw,30px); border:1px solid var(--line); border-radius:28px; background:rgba(255,254,253,.76); }
+    .map-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:clamp(14px,1.8vw,23px); }
+    .map h2,.course h2 { margin:0; font-size:clamp(16px,1.45vw,21px); letter-spacing:-.04em; }
+    .map-head span { color:var(--muted); font-size:clamp(10px,.9vw,13px); }
+    .ai-map { height:calc(100% - 43px); display:grid; grid-template-columns:1fr 1.18fr; grid-template-rows:repeat(3,1fr); gap:10px; }
+    .field { display:flex; flex-direction:column; justify-content:center; min-height:0; padding:clamp(10px,1.2vw,17px); border-radius:17px; background:#f6eee8; }
+    .field small { color:var(--orange-deep); font-size:clamp(9px,.75vw,11px); font-weight:800; letter-spacing:.08em; }
+    .field b { display:block; margin-top:4px; font-size:clamp(13px,1.2vw,18px); letter-spacing:-.04em; }
+    .field span { margin-top:3px; color:var(--muted); font-size:clamp(10px,.82vw,12px); line-height:1.45; }
+    .aigc {
+      grid-column:2; grid-row:1 / span 3; position:relative; display:flex; flex-direction:column; justify-content:center;
+      padding:clamp(17px,2.4vw,34px); border-radius:23px; overflow:hidden; color:#fff; background:linear-gradient(145deg,#ff7b3a,var(--orange) 53%,#e64713);
+      box-shadow:0 17px 30px rgba(233,72,22,.22);
+    }
+    .aigc::before { content:""; position:absolute; width:210px; height:210px; right:-70px; top:-72px; border-radius:50%; border:34px solid rgba(255,255,255,.19); }
+    .aigc::after { content:""; position:absolute; width:140px; height:140px; left:-62px; bottom:-70px; border-radius:50%; background:rgba(255,219,193,.25); }
+    .aigc > * { position:relative; z-index:1; }
+    .aigc small { color:#ffe2ce; font-size:clamp(10px,.85vw,12px); font-weight:800; letter-spacing:.13em; }
+    .aigc h3 { margin:8px 0 9px; font-size:clamp(35px,4.2vw,66px); line-height:.9; letter-spacing:-.09em; }
+    .aigc p { max-width:330px; margin:0; color:rgba(255,255,255,.87); font-size:clamp(12px,1.05vw,15px); line-height:1.6; }
+    .aigc .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:clamp(11px,1.2vw,18px); }
+    .tags span { padding:5px 8px; border:1px solid rgba(255,255,255,.26); border-radius:999px; background:rgba(119,27,0,.17); font-size:clamp(9px,.76vw,11px); font-weight:700; }
+    .course { display:grid; grid-template-rows:auto 1fr auto; min-height:0; padding:clamp(17px,2vw,30px); border-radius:28px; background:var(--night); color:#fff; }
+    .course h2 { color:#fff; }
+    .course h2 em { color:#ffb37f; font-style:normal; }
+    .course-path { display:grid; align-content:center; gap:clamp(8px,1vw,14px); padding:clamp(13px,1.5vw,20px) 0; }
+    .step { display:grid; grid-template-columns:38px 1fr; gap:11px; align-items:center; }
+    .step-n { display:grid; place-items:center; width:34px; height:34px; border-radius:10px; background:rgba(255,255,255,.11); color:#ffbc91; font-size:11px; font-weight:900; }
+    .step b { display:block; font-size:clamp(13px,1.25vw,18px); letter-spacing:-.04em; }
+    .step span { display:block; margin-top:3px; color:rgba(255,255,255,.62); font-size:clamp(10px,.82vw,12px); line-height:1.45; }
+    .result { padding:clamp(12px,1.45vw,20px); border-radius:16px; background:linear-gradient(130deg,#ff7030,#ff9a58); }
+    .result small { display:block; color:rgba(255,255,255,.76); font-size:clamp(9px,.75vw,11px); font-weight:800; letter-spacing:.09em; }
+    .result b { display:block; margin-top:4px; font-size:clamp(13px,1.22vw,18px); letter-spacing:-.04em; }
+    footer { display:flex; align-items:center; justify-content:space-between; gap:24px; padding-top:clamp(11px,1.4vw,20px); border-top:1px solid var(--line); }
+    .thesis { max-width:1040px; margin:0; font-size:clamp(14px,1.35vw,20px); font-weight:650; line-height:1.45; letter-spacing:-.035em; }
+    .thesis strong { color:var(--orange); }
+    .page { color:var(--muted); font-size:11px; font-weight:800; letter-spacing:.09em; white-space:nowrap; }
+    @media (max-width:800px) {
+      .slide { aspect-ratio:auto; min-height:100vh; }
+      header { display:block; }.meta { margin-top:12px; text-align:left; }
+      main { grid-template-columns:1fr; }.map { min-height:440px; }.course { min-height:390px; }
+      footer { display:block; }.page { margin-top:9px; }
+    }
+    @media print { body { background:#fff; }.slide { width:100%; min-height:100vh; } }
+  </style>
+</head>
+<body>
+  <article class="slide" aria-label="AIGC 影像创作课在人工智能全景中的位置">
+    <header>
+      <div>
+        <div class="eyebrow"><i></i>HIGH SCHOOL AIGC FILM STUDIO · 12 LESSONS / 18 HOURS</div>
+        <h1>我们讲的不是“AI 工具课”，<br>而是 <em>AIGC 时代的创作与判断课</em></h1>
+      </div>
+      <div class="meta"><b>给学校管理者的一页说明</b>课程定位 · AI 素养 · 创作教育</div>
+    </header>
+
+    <main>
+      <section class="map" aria-labelledby="map-title">
+        <div class="map-head"><h2 id="map-title">AIGC 在 AI 全景中的位置</h2><span>其他方向：机器人学 · AI for Science</span></div>
+        <div class="ai-map">
+          <div class="field"><small>NLP</small><b>自然语言处理</b><span>叙事、对话、提示与表达</span></div>
+          <div class="aigc">
+            <small>AI 的生成能力与应用层</small>
+            <h3>AIGC</h3>
+            <p>把语言、视觉与多模态大模型的能力，转化为可以被人审美、修订、解释和负责的内容生产过程。</p>
+            <div class="tags"><span>文本</span><span>图像</span><span>视频</span><span>声音</span><span>代码 / Skill</span></div>
+          </div>
+          <div class="field"><small>CV + CG</small><b>计算机视觉与图形学</b><span>图像、镜头、像素、渲染与视觉理解</span></div>
+          <div class="field"><small>FOUNDATION MODELS</small><b>大模型与多模态模型</b><span>当前 AIGC 的核心底座</span></div>
+        </div>
+      </section>
+
+      <section class="course" aria-labelledby="course-title">
+        <h2 id="course-title">课程选择 AIGC，<em>但不止教生成</em></h2>
+        <div class="course-path">
+          <div class="step"><div class="step-n">01</div><div><b>先看见</b><span>摄影、镜头、声音与计算机图形学，建立判断画面的语言。</span></div></div>
+          <div class="step"><div class="step-n">02</div><div><b>再生成</b><span>用文本、图像与视频生成工具服务同一支短片，而非孤立练工具。</span></div></div>
+          <div class="step"><div class="step-n">03</div><div><b>最后解释与负责</b><span>用分镜、测试、生产日志和路演说明：人的判断在哪里。</span></div></div>
+        </div>
+        <div class="result"><small>学生最后交付</small><b>60 秒小组短片 + 个人可测试 AI Skill + 创作过程档案</b></div>
+      </section>
+    </main>
+
+    <footer>
+      <p class="thesis"><strong>一句话：</strong>课程以 AIGC 为真实创作材料，培养学生在 AI 时代的审美、表达、协作与责任，而不是把学生训练成某个软件的操作者。</p>
+      <span class="page">AIGC COURSE / 01</span>
+    </footer>
+  </article>
+</body>
+</html>
